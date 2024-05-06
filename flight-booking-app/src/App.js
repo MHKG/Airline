@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import GoogleLoginButton from './GoogleLoginButton';
 
 const FlightSearch = () => {
     const [departureLocation, setDepartureLocation] = useState("");
@@ -70,6 +71,9 @@ const FlightSearch = () => {
                     </ul>
                 </div>
             )}
+            <div className="login-container">
+        <GoogleLoginButton />
+      </div>
         </div>
     );
 };
