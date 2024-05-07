@@ -2,7 +2,6 @@
 
 package com.example.controller;
 
-import com.example.dto.FlightDTO;
 import com.example.entity.Flight;
 import com.example.service.FlightSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
