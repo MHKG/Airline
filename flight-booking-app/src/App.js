@@ -6,8 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 
 function App() {
-    const [user, setUser] = useState([]);
-    const [profile, setProfile] = useState([]);
+    const [user, setUser] = useState(null);
+    const [profile, setProfile] = useState(null);
     const [departureLocation, setDepartureLocation] = useState("");
     const [destination, setDestination] = useState("");
     const [date, setDate] = useState(new Date());
@@ -16,6 +16,13 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const datePickerRef = useRef();
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        if (storedUser) {
+            setUser(storedUser);
+        }
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -37,12 +44,17 @@ function App() {
     }, [user]);
 
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
-        onError: (error) => console.log('Login Failed:', error)
+        onSuccess: (codeResponse) => {
+            setUser(codeResponse);
+            localStorage.setItem("user", JSON.stringify(codeResponse));
+        },
+        onError: (error) => console.log("Login Failed:", error),
     });
 
     const logOut = () => {
         googleLogout();
+        localStorage.removeItem("user");
+        setUser(null);
         setProfile(null);
     };
 
@@ -90,7 +102,10 @@ function App() {
                     <button onClick={logOut}>Log out</button>
                 </div>
             ) : (
-                <button onClick={login}>Sign in with Google 🚀 </button>
+                <button onClick={login} style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <img src="https://1000logos.net/wp-content/uploads/2016/11/New-Google-Logo.jpg" alt="Google Logo" style={{marginRight: "8px", width: "24px", height: "24px"}}/>
+                    <span>Continue with Google</span>
+                </button>
             )}
 
             <div className="flight-search-container">
