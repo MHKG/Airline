@@ -35,6 +35,7 @@ public class FlightSearchService {
 	}
 
 	// Method to search for available flights based on user input
+	@SuppressWarnings("unchecked")
 	public List<Flight> searchFlights(String source, String destination, String date_of_journey, int seats_required) {
 		Query query = entityManager.createQuery(environment.getProperty("findAllFlights"), Flight.class);
 		query.setParameter("source", source);
