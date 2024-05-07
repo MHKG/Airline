@@ -48,7 +48,7 @@ function App() {
             setUser(codeResponse);
             localStorage.setItem("user", JSON.stringify(codeResponse));
         },
-        onError: (error) => console.log("Login Failed:", error),
+        onError: (error) => console.log("Login Failed:", error)
     });
 
     const logOut = () => {
