@@ -24,6 +24,11 @@ public class FlightSearchService {
 	@Autowired
 	private Environment environment;
 
+	public FlightSearchService(EntityManager entityManager, Environment environment) {
+		this.entityManager = entityManager;
+		this.environment = environment;
+	}
+
 	public Flight getByFlightNumber(String flight_number) {
 		Query query = entityManager.createQuery(environment.getProperty("findByFlightNumber"), Flight.class).setParameter("flight_number", flight_number);
 		return (Flight) query.getSingleResult();
