@@ -2,32 +2,19 @@
 
 package com.example.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-
-
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int id;
-	public String name;
-	public String email;
-	public int age;
-	// Add more properties as needed
+	private int id;
+	private String name;
+	private String email;
+	private int age;
 
-	// Constructor, getters, and setters
-	public Customer(String name, String email, int age) {
-		this.name = name;
-		this.email = email;
-		this.age = age;
-	}
-
+	// Getters and setters
 	public int getId() {
 		return id;
 	}

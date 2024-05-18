@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class FlightSearchService {
+public class FlightService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -24,7 +24,7 @@ public class FlightSearchService {
 	@Autowired
 	private Environment environment;
 
-	public FlightSearchService(EntityManager entityManager, Environment environment) {
+	public FlightService(EntityManager entityManager, Environment environment) {
 		this.entityManager = entityManager;
 		this.environment = environment;
 	}
@@ -46,7 +46,8 @@ public class FlightSearchService {
 	}
 
 	// Method to book a flight
-	public boolean bookFlight(Flight flight, int seats_required, Customer[] customers) {
+	public boolean bookFlight(String flight_number, int seats_required, Customer[] customers) {
+		Flight flight = getByFlightNumber(flight_number);
 		if (flight.getAvailable_seats() >= seats_required) {
 			// Insert booking details into the Booking table
 			String insertBookingQuery = "INSERT INTO Booking (flight_number, seats_booked,customer_id, booking_date) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
