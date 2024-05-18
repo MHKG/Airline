@@ -2,14 +2,15 @@
 
 package com.example.controller;
 
+import com.example.entity.Booking;
 import com.example.entity.Flight;
-import com.example.service.FlightSearchService;
+import com.example.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ import java.util.List;
 public class FlightController {
 
 	@Autowired
-	private FlightSearchService flightSearchService;
+	private FlightService flightService;
 
 	@GetMapping("/flights")
 	public List<Flight> searchFlights(
@@ -25,6 +26,23 @@ public class FlightController {
 			@RequestParam String destination,
 			@RequestParam String date,
 			@RequestParam int seatsRequired) {
-		return flightSearchService.searchFlights(departureLocation, destination, date, seatsRequired);
+		return flightService.searchFlights(departureLocation, destination, date, seatsRequired);
+	}
+
+	@PostMapping("/book")
+	public ResponseEntity<?> bookFlight(@RequestBody Booking booking) {
+		// Assuming you have a service to handle the booking logic
+		boolean isBookingSuccessful = flightService.bookFlight(
+				booking.getFlightNumber(),
+				booking.getSeatsRequired(),
+				booking.getCustomers()
+		);
+
+		if (isBookingSuccessful) {
+			return ResponseEntity.ok(Collections.singletonMap("success", true));
+		} else {
+			return ResponseEntity.status(HttpStatus.CONFLICT)
+					.body(Collections.singletonMap("success", false));
+		}
 	}
 }

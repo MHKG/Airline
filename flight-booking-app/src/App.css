@@ -90,3 +90,77 @@
 .flight-list li {
   margin-bottom: 10px;
 }
+
+.login-container {
+  margin-bottom: 20px;
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-logo {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.flight-search-container {
+  margin-top: 20px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.flight-list-container {
+  margin-top: 20px;
+}
+
+.flight-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.flight-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.flight-list li.selected {
+  background-color: #f0f0f0;
+}
+
+.flight-list li .flight-details {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.flight-list li .radio-button {
+  margin-right: 8px;
+}
+
+.message {
+  margin-top: 10px;
+  color: red;
+}
+
+.radio-button {
+  margin-right: 10px;
+}
+
+.flight-details {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-button {
+  margin-top: 10px;
+}

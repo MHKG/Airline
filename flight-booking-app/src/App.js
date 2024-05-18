@@ -4,6 +4,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import BookingPage from "./BookingPage";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -15,7 +16,17 @@ function App() {
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const [selectedFlight, setSelectedFlight] = useState(null);
     const datePickerRef = useRef();
+    const [showBookingPage, setShowBookingPage] = useState(false);
+
+    const handleBookClick = () => {
+        if (!selectedFlight) {
+            alert("Please select a flight to book.");
+            return;
+        }
+        setShowBookingPage(true);
+    };
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -48,7 +59,7 @@ function App() {
             setUser(codeResponse);
             localStorage.setItem("user", JSON.stringify(codeResponse));
         },
-        onError: (error) => console.log("Login Failed:", error)
+        onError: (error) => console.log("Login Failed:", error),
     });
 
     const logOut = () => {
@@ -91,99 +102,142 @@ function App() {
 
     return (
         <div>
-            {profile ? (
-                <div>
-                    <img src={profile.picture} alt="user image" />
-                    <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
-                    <br />
-                    <br />
-                    <button onClick={logOut}>Log out</button>
-                </div>
-            ) : (
-                <button onClick={login} style={{ display: "flex", alignItems: "center", justifyContent: "center"}}>
-                    <img src="https://1000logos.net/wp-content/uploads/2016/11/New-Google-Logo.jpg" alt="Google Logo" style={{marginRight: "8px", width: "24px", height: "24px"}}/>
-                    <span>Continue with Google</span>
-                </button>
-            )}
-
-            <div className="flight-search-container">
-                <h2>Search Flights</h2>
-                <div className="input-group">
-                    <label htmlFor="departureLocation">
-                        Departure Location:
-                    </label>
-                    <input
-                        type="text"
-                        id="departureLocation"
-                        value={departureLocation}
-                        onChange={(e) => setDepartureLocation(e.target.value)}
-                        placeholder="Enter departure location"
-                    />
-                </div>
-                <div className="input-group">
-                    <label htmlFor="destination">Destination:</label>
-                    <input
-                        type="text"
-                        id="destination"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                        placeholder="Enter destination"
-                    />
-                </div>
-                <div className="input-group">
-                    <label htmlFor="date">Date:</label>
-                    <DatePicker
-                        id="date"
-                        selected={date}
-                        onChange={(date) => setDate(date)}
-                        ref={datePickerRef}
-                    />
-                </div>
-                <div className="input-group">
-                    <label htmlFor="seatsRequired">Seats Required:</label>
-                    <input
-                        type="number"
-                        id="seatsRequired"
-                        value={seatsRequired}
-                        onChange={(e) =>
-                            setSeatsRequired(parseInt(e.target.value))
-                        }
-                        min={1}
-                        max={10}
-                    />
-                </div>
-                <button
-                    className="search-button"
-                    onClick={searchFlights}
-                    disabled={loading}
-                >
-                    {loading ? "Searching..." : "Search Flights"}
-                </button>
-                <div className="message">{message}</div>
-                {flights.length > 0 && (
-                    <div className="flight-list-container">
-                        <h4 style={{ whiteSpace: "pre" }}>
-                            Flight Number - Departure Time -{"\t"} Fare
-                        </h4>
-                        <ul className="flight-list">
-                            {flights.map((flight) => (
-                                <li
-                                    key={flight.flight_number}
-                                    style={{ whiteSpace: "pre" }}
-                                >
-                                    {" "}
-                                    {flight.flight_number} {"\t"}
-                                    {"\t"} - {"\t"} {flight.departure_time}{" "}
-                                    {"\t"}
-                                    {"\t"} -{"\t"} ₹{flight.fare}
-                                </li>
-                            ))}
-                        </ul>
+            <div className="login-container">
+                {profile ? (
+                    <div>
+                        <img src={profile.picture} alt="user image" />
+                        <h3>User Logged in</h3>
+                        <p>Name: {profile.name}</p>
+                        <p>Email Address: {profile.email}</p>
+                        <br />
+                        <br />
+                        <button onClick={logOut}>Log out</button>
                     </div>
+                ) : (
+                    <button onClick={login} className="login-button">
+                        <img
+                            src="https://1000logos.net/wp-content/uploads/2016/11/New-Google-Logo.jpg"
+                            alt="Google Logo"
+                            className="google-logo"
+                        />
+                        <span>Continue with Google</span>
+                    </button>
                 )}
             </div>
+
+            {showBookingPage ? (
+                <BookingPage
+                    selectedFlight={selectedFlight}
+                    profile={profile}
+                />
+            ) : (
+                <div className="flight-search-container">
+                    <h2>Search Flights</h2>
+                    <div className="input-group">
+                        <label htmlFor="departureLocation">
+                            Departure Location:
+                        </label>
+                        <input
+                            type="text"
+                            id="departureLocation"
+                            value={departureLocation}
+                            onChange={(e) =>
+                                setDepartureLocation(e.target.value)
+                            }
+                            placeholder="Enter departure location"
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="destination">Destination:</label>
+                        <input
+                            type="text"
+                            id="destination"
+                            value={destination}
+                            onChange={(e) => setDestination(e.target.value)}
+                            placeholder="Enter destination"
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="date">Date:</label>
+                        <DatePicker
+                            id="date"
+                            selected={date}
+                            onChange={(date) => setDate(date)}
+                            ref={datePickerRef}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label htmlFor="seatsRequired">Seats Required:</label>
+                        <input
+                            type="number"
+                            id="seatsRequired"
+                            value={seatsRequired}
+                            onChange={(e) =>
+                                setSeatsRequired(parseInt(e.target.value))
+                            }
+                            min={1}
+                            max={10}
+                        />
+                    </div>
+                    <button
+                        className="search-button"
+                        onClick={searchFlights}
+                        disabled={loading}
+                    >
+                        {loading ? "Searching..." : "Search Flights"}
+                    </button>
+                    <div className="message">{message}</div>
+                    {flights.length > 0 && (
+                        <div className="flight-list-container">
+                            <div className="flight-details">
+                                <span>Flight Number</span>
+                                <span>Departure Time</span>
+                                <span>Fare</span>
+                            </div>
+                            <ul className="flight-list">
+                                {flights.map((flight) => (
+                                    <li
+                                        key={flight.flight_number}
+                                        className={
+                                            selectedFlight &&
+                                            selectedFlight.flight_number ===
+                                                flight.flight_number
+                                                ? "selected"
+                                                : ""
+                                        }
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="selectedFlight"
+                                            value={flight.flight_number}
+                                            checked={
+                                                selectedFlight &&
+                                                selectedFlight.flight_number ===
+                                                    flight.flight_number
+                                            }
+                                            onChange={() =>
+                                                setSelectedFlight(flight)
+                                            }
+                                            className="radio-button"
+                                        />
+                                        <div className="flight-details">
+                                            <span>{flight.flight_number}</span>
+                                            <span>{flight.departure_time}</span>
+                                            <span>₹{flight.fare}</span>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            <button
+                                onClick={handleBookClick}
+                                disabled={!selectedFlight}
+                            >
+                                Book Selected Flight
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
