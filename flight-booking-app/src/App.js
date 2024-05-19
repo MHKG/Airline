@@ -163,6 +163,9 @@ function App() {
                             id="date"
                             selected={date}
                             onChange={(date) => setDate(date)}
+                            showYearDropdown
+                            dropdownMode="select"
+                            dateFormat="dd/MM/yyyy"
                             ref={datePickerRef}
                         />
                     </div>
