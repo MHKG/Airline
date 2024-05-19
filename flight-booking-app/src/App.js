@@ -70,6 +70,10 @@ function App() {
     };
 
     const searchFlights = async () => {
+        if (!departureLocation || !destination || !date || !seatsRequired || !selectedFlight) {
+            alert("Please fill out all the fields.");
+            return;
+        }
         setLoading(true);
         try {
             const formattedDate = date.toISOString().split("T")[0];
@@ -163,6 +167,9 @@ function App() {
                             id="date"
                             selected={date}
                             onChange={(date) => setDate(date)}
+                            showYearDropdown
+                            dropdownMode="select"
+                            dateFormat="dd/MM/yyyy"
                             ref={datePickerRef}
                         />
                     </div>
