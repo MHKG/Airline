@@ -20,7 +20,7 @@ public class FlightController {
 	@Autowired
 	private FlightService flightService;
 
-	@GetMapping("/flights")
+	@RequestMapping(value = "/flights", method = RequestMethod.GET)
 	public List<Flight> searchFlights(
 			@RequestParam String departureLocation,
 			@RequestParam String destination,
@@ -29,7 +29,7 @@ public class FlightController {
 		return flightService.searchFlights(departureLocation, destination, date, seatsRequired);
 	}
 
-	@PostMapping("/book")
+	@RequestMapping(value = "/book", method = RequestMethod.POST)
 	public ResponseEntity<?> bookFlight(@RequestBody Booking booking) {
 		// Assuming you have a service to handle the booking logic
 		boolean isBookingSuccessful = flightService.bookFlight(
