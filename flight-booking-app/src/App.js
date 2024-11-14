@@ -109,7 +109,7 @@ function App() {
 			<div className="login-container">
 				{profile ? (
 					<div>
-						<img src={profile.picture} alt="user image" />
+						<img src={profile.picture} alt="User Profile" />
 						<h3>User Logged in</h3>
 						<p>Name: {profile.name}</p>
 						<p>Email Address: {profile.email}</p>
