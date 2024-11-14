@@ -6,7 +6,7 @@ const BookingPage = ({ selectedFlight, profile }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [age, setAge] = useState("");
-	const [seatsRequired, setSeatsRequired] = useState(1);
+	const [seats_booked, setSeatsBooked] = useState(1);
 
 	const bookFlight = async () => {
 		if (!selectedFlight) {
@@ -18,8 +18,8 @@ const BookingPage = ({ selectedFlight, profile }) => {
 			const response = await axios.post(
 				"http://localhost:8080/FlightController/book",
 				{
-					flightNumber: selectedFlight.flight_number,
-					seatsRequired,
+					flight_number: selectedFlight.flight_number,
+					seats_booked,
 					customers: [
 						{
 							name,
@@ -77,8 +77,8 @@ const BookingPage = ({ selectedFlight, profile }) => {
 				<label>Seats Required:</label>
 				<input
 					type="number"
-					value={seatsRequired}
-					onChange={(e) => setSeatsRequired(parseInt(e.target.value))}
+					value={seats_booked}
+					onChange={(e) => setSeatsBooked(parseInt(e.target.value))}
 				/>
 			</div>
 			<button onClick={bookFlight} className="button">
