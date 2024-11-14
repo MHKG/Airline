@@ -7,45 +7,46 @@ import java.util.List;
 @Entity
 @Table(name = "booking")
 public class Booking {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String flightNumber;
-	private int seatsRequired;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Customer> customers;
+    private String flight_number;
+    private int seats_booked;
 
-	// Getters and setters
-	public Long getId() {
-		return id;
-	}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Customer> customers;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
 
-	public String getFlightNumber() {
-		return flightNumber;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setFlightNumber(String flightNumber) {
-		this.flightNumber = flightNumber;
-	}
+    public String getFlight_number() {
+        return flight_number;
+    }
 
-	public int getSeatsRequired() {
-		return seatsRequired;
-	}
+    public void setFlight_number(String flight_number) {
+        this.flight_number = flight_number;
+    }
 
-	public void setSeatsRequired(int seatsRequired) {
-		this.seatsRequired = seatsRequired;
-	}
+    public int getSeats_booked() {
+        return seats_booked;
+    }
 
-	public Customer[] getCustomers() {
-		return customers.toArray(new Customer[0]);
-	}
+    public void setSeats_booked(int seats_booked) {
+        this.seats_booked = seats_booked;
+    }
 
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
-	}
+    public Customer[] getCustomers() {
+        return customers.toArray(new Customer[0]);
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
 }

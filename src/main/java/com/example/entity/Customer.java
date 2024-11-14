@@ -1,4 +1,4 @@
-//Customer.java
+// Customer.java
 
 package com.example.entity;
 
@@ -7,39 +7,40 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "customer")
 public class Customer {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String name;
-	private String email;
-	private int age;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	// Getters and setters
-	public int getId() {
-		return id;
-	}
+    private String name;
+    private String email;
+    private int age;
 
-	public String getName() {
-		return name;
-	}
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public int getAge() {
-		return age;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }
